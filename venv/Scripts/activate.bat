@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set "VIRTUAL_ENV=E:\SEM-VII\major_project\Sambro\project\ClipboardGuard\venv"
+set "VIRTUAL_ENV=D:\Major Project\Sambro\project\venv"
 
 if not defined PROMPT set PROMPT=$P$G
 

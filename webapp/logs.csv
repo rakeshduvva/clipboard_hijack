@@ -1,0 +1,6 @@
+timestamp,event,prev_clip,new_clip,meta
+2025-11-03T10:10:02.768869Z,transaction_simulated,,1Lc8sN9h3z7VxKj2QW4eR5mZa6pTf8uXyB,txid:1762164602
+2025-11-03T10:14:23.047365Z,transaction_simulated,,3QJmV3qfvL9SuYo34YihAf3sRCW3qSinyC,txid:1762164863
+2025-11-03T10:14:54.657531Z,trusted_added,,3QJmV3qfvL9SuYo34YihAf3sRCW3qSinyC,added_via_web
+2025-11-03T10:15:01.605835Z,trusted_removed,,3QJmV3qfvL9SuYo34YihAf3sRCW3qSinyC,removed_via_web
+2025-11-03T10:15:18.515818Z,trusted_added,,3QJmV3qfvL9SuYo34YihAf3sRCW3qSinyC,added_via_web

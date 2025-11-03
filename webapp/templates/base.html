@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ClipboardGuard - Demo</title>
+
+  <!-- Tailwind CDN for quick attractive UI -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="bg-slate-900 text-slate-100">
+  <nav class="bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-600 text-white p-4">
+    <div class="container mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none"><path d="M12 2L19 8v8l-7 6-7-6V8l7-6z" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="font-bold text-lg">ClipboardGuard — Demo</span>
+      </div>
+      <div class="flex gap-3">
+        <a class="px-3 py-1 hover:underline" href="{{ url_for('index') }}">Dashboard</a>
+        <a class="px-3 py-1 hover:underline" href="{{ url_for('transact') }}">Transaction</a>
+        <a class="px-3 py-1 hover:underline" href="{{ url_for('logs_page') }}">Logs</a>
+        <a class="px-3 py-1 hover:underline" href="{{ url_for('trusted_page') }}">Trusted</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container mx-auto mt-8">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="text-center text-slate-400 mt-12 mb-6">
+    ClipboardGuard demo • Local prototype • No real crypto transfers
+  </footer>
+</body>
+</html>

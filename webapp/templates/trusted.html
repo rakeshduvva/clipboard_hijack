@@ -1,0 +1,58 @@
+<!-- {% extends "base.html" %}
+{% block content %}
+<div class="max-w-3xl mx-auto bg-slate-800 rounded p-6 shadow">
+  <h2 class="text-2xl mb-4 font-semibold">Trusted Addresses</h2>
+
+  <form method="post" action="{{ url_for('trusted_remove') }}">
+    <div class="space-y-2">
+      {% if trusted %}
+        {% for t in trusted %}
+          <div class="p-3 bg-slate-900 rounded flex items-center justify-between">
+            <div class="text-sm break-words">{{ t }}</div>
+            <div>
+              <button name="address" value="{{ t }}" type="submit" class="bg-red-600 px-3 py-1 rounded">Remove</button>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="text-slate-400">No trusted addresses yet. Copy an address and click "Trust this" on the dashboard.</div>
+      {% endif %}
+    </div>
+  </form>
+</div>
+{% endblock %} -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Trusted Clipboard Hashes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav>
+        <a href="/">Dashboard</a>
+        <a href="/logs">Logs</a>
+        <a href="/trusted">Trusted</a>
+        <a href="/transaction">Bitcoin Transaction</a>
+    </nav>
+    <div class="container">
+        <h2>Trusted Clipboard Hashes</h2>
+
+        {% if trusted %}
+        <table border="1" cellpadding="10" cellspacing="0">
+            <tr><th>SHA256 (first 10 chars)</th></tr>
+            {% for h in trusted %}
+            <tr><td>{{ h }}</td></tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p>No trusted entries yet.</p>
+        {% endif %}
+
+        <hr>
+        <form action="/add_trusted" method="POST">
+            <input type="text" name="address" placeholder="Paste text to trust" required>
+            <button type="submit">Add Trusted</button>
+        </form>
+    </div>
+</body>
+</html>

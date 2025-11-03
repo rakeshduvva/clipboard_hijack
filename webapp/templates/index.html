@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+  <!-- Clipboard card -->
+  <div class="col-span-2 bg-slate-800 rounded-lg p-6 shadow">
+    <h2 class="text-2xl font-semibold mb-3">Live Clipboard</h2>
+    <div id="clipboardBox" class="bg-slate-900 p-4 rounded text-sm break-words min-h-[120px]"></div>
+    <div class="mt-4 flex gap-2">
+      <button id="refreshBtn" class="bg-indigo-600 hover:bg-indigo-500 px-4 py-2 rounded">Refresh</button>
+      <button id="trustBtn" class="bg-emerald-600 hover:bg-emerald-500 px-4 py-2 rounded">Trust this</button>
+      <a href="{{ url_for('transact') }}" class="ml-auto bg-yellow-500 hover:bg-yellow-400 px-4 py-2 rounded text-slate-900">Use Address</a>
+    </div>
+    <p id="msg" class="text-sm text-slate-300 mt-3"></p>
+  </div>
+
+  <!-- Recent activity -->
+  <div class="bg-slate-800 rounded-lg p-6 shadow">
+    <h3 class="text-xl font-semibold mb-3">Recent Events</h3>
+    <div id="events" class="space-y-2 text-sm max-h-[240px] overflow-auto">
+      <div class="text-slate-400">No events yet.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+async function fetchClipboard(){
+  const res = await fetch('/api/clipboard');
+  const data = await res.json();
+  return data.clipboard || "";
+}
+
+async function refreshClipboard(){
+  const cb = await fetchClipboard();
+  document.getElementById('clipboardBox').textContent = cb || "(empty)";
+}
+
+async function refreshEvents(){
+  const res = await fetch('/api/logs');
+  const data = await res.json();
+  const node = document.getElementById('events');
+  node.innerHTML = "";
+  if(!data || data.length===0){ node.innerHTML = "<div class='text-slate-400'>No events yet.</div>"; return; }
+  data.slice(0,10).forEach(d=>{
+    const el = document.createElement('div');
+    el.className = "p-2 bg-slate-900 rounded";
+    el.innerHTML = `<div class="text-xs text-slate-400">${d.timestamp}</div>
+                    <div class="text-sm"><strong>${d.event}</strong> — ${d.new_clip}</div>`;
+    node.appendChild(el);
+  });
+}
+
+document.getElementById('refreshBtn').addEventListener('click', async ()=>{
+  await refreshClipboard();
+  document.getElementById('msg').textContent = "Clipboard refreshed.";
+  setTimeout(()=>document.getElementById('msg').textContent="",2000);
+});
+
+document.getElementById('trustBtn').addEventListener('click', async ()=>{
+  const cb = await fetchClipboard();
+  if(!cb){ alert("Clipboard is empty"); return; }
+  const res = await fetch('/api/capture',{method:'POST', headers:{'content-type':'application/json'}, body:JSON.stringify({address:cb})});
+  const j = await res.json();
+  if(j.ok){ document.getElementById('msg').textContent = "Address added to trusted list."; refreshEvents(); }
+});
+
+refreshClipboard();
+refreshEvents();
+setInterval(refreshClipboard, 2500);
+setInterval(refreshEvents, 4000);
+</script>
+{% endblock %}
