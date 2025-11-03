@@ -1,6 +1,4 @@
-timestamp,event,prev_clip,new_clip,meta
-2025-11-03T10:50:15.474832Z,logs_cleared,,,Cleared all logs via web
-2025-11-03T10:52:37.448559Z,trusted_synced,,"1Fq7hYkRz2MWb9sL6a3vDgX4nYpT8cUe5
+1Fq7hYkRz2MWb9sL6a3vDgX4nYpT8cUe5
 
 1Pz9KxVb6QwYtM3hJ2sL8rF4nGvA5cE1
 
@@ -38,4 +36,4 @@ timestamp,event,prev_clip,new_clip,meta
 
 1Gh3NqV8bR6mYp2L9tK4sF5zC7aX1wD
 
-1Sr9QpR4tV6bM3sL2kG8hF5nC7aX1wD",synced_from_monitor
+1Sr9QpR4tV6bM3sL2kG8hF5nC7aX1wD

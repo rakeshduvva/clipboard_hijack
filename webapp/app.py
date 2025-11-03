@@ -150,6 +150,42 @@ def transact():
 
     return render_template("transact.html")
 
+@app.route("/api/trusted_sync", methods=["POST"])
+def trusted_sync():
+    data = request.json or {}
+    addr = data.get("address", "")
+    if not addr:
+        return jsonify({"ok": False}), 400
+    trusted = read_trusted()
+    if addr not in trusted:
+        trusted.append(addr)
+        save_trusted(trusted)
+    log_event("trusted_synced", "", addr, "synced_from_monitor")
+    return jsonify({"ok": True})
+
+@app.route("/api/untrusted_sync", methods=["POST"])
+def untrusted_sync():
+    data = request.json or {}
+    addr = data.get("address", "")
+    log_event("untrusted_detected", "", addr, "detected_from_monitor")
+    return jsonify({"ok": True})
+
+
+@app.route("/logs/clear", methods=["POST"])
+def clear_logs():
+    ensure_files()
+    try:
+        # Overwrite CSV with header only
+        with open(LOG_CSV, "w", newline="", encoding="utf-8") as f:
+            writer = csv.writer(f)
+            writer.writerow(["timestamp", "event", "prev_clip", "new_clip", "meta"])
+        
+        # Log that logs were cleared
+        log_event("logs_cleared", "", "", "Cleared all logs via web")
+        return redirect(url_for("logs_page"))
+    except Exception as e:
+        return jsonify({"ok": False, "msg": str(e)}), 500
+
 
 @app.route("/api/logs")
 def api_logs():

@@ -1,18 +1,30 @@
 {% extends "base.html" %}
 {% block content %}
+
 <div class="bg-slate-800 rounded p-6 shadow">
-  <h2 class="text-2xl mb-4 font-semibold">Event Logs</h2>
-  <div class="mb-4">
-    <a href="/download/logs" class="bg-indigo-600 px-3 py-2 rounded">Download CSV</a>
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-2xl font-semibold">Event Logs</h2>
+    <div class="space-x-2">
+      <a href="/download/logs" class="bg-indigo-600 hover:bg-indigo-700 px-3 py-2 rounded text-white text-sm">⬇️ Download CSV</a>
+      <form action="{{ url_for('clear_logs') }}" method="POST" class="inline"
+            onsubmit="return confirm('Are you sure you want to clear all logs? This action cannot be undone.');">
+        <button type="submit" class="bg-red-600 hover:bg-red-700 px-3 py-2 rounded text-white text-sm">🗑️ Clear All Logs</button>
+      </form>
+    </div>
   </div>
+
   <div class="space-y-2 max-h-[480px] overflow-auto">
-    {% for r in logs %}
-      <div class="p-3 bg-slate-900 rounded">
-        <div class="text-xs text-slate-400">{{ r.timestamp }}</div>
-        <div class="text-sm"><strong>{{ r.event }}</strong> — New: {{ r.new_clip }}</div>
-        <div class="text-xs text-slate-500">meta: {{ r.meta }}</div>
-      </div>
-    {% endfor %}
+    {% if logs %}
+      {% for r in logs %}
+        <div class="p-3 bg-slate-900 rounded">
+          <div class="text-xs text-slate-400">{{ r.timestamp }}</div>
+          <div class="text-sm"><strong>{{ r.event }}</strong> — New: {{ r.new_clip }}</div>
+          <div class="text-xs text-slate-500">meta: {{ r.meta }}</div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <div class="text-slate-400 text-sm italic">No logs available.</div>
+    {% endif %}
   </div>
 </div>
 {% endblock %}
